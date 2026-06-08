@@ -45,12 +45,13 @@ def main() -> None:
     print(f"Total quantity of the {len_item_types} items: {len_items}")
     for k in inventory.keys():
         print(f"Item {k} represents {round(inventory[k]/len_items*100, 1)}%")
-    most_name = max_count(inventory)
-    least_name = min_count(inventory)
-    most_qty = inventory[most_name]
-    least_qty = inventory[least_name]
-    print(f"Item most abundant: {most_name} with quantity {most_qty}")
-    print(f"Item least abundant: {least_name} with quantity {least_qty}")
+    if inventory:
+        most_name = max_count(inventory)
+        least_name = min_count(inventory)
+        most_qty = inventory[most_name]
+        least_qty = inventory[least_name]
+        print(f"Item most abundant: {most_name} with quantity {most_qty}")
+        print(f"Item least abundant: {least_name} with quantity {least_qty}")
     inventory.update({"magic_item": 1})
     print(f"Updated inventory: {inventory}")
 
