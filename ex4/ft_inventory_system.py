@@ -1,53 +1,58 @@
-# === Expected output ===
-#
-# $> python3 ft_inventory_system.py sword:1 potion:5 shield:2 armor:3 helmet:1 sword:2 hello key:value
-# === Inventory System Analysis ===
-# Redundant item 'sword' - discarding
-# Error - invalid parameter 'hello'
-# Quantity error for 'key': invalid literal for int() with base 10: 'value'
-# Got inventory: {'sword': 1, 'potion': 5, 'shield': 2, 'armor': 3, 'helmet': 1}
-# Item list: ['sword', 'potion', 'shield', 'armor', 'helmet']
-# Total quantity of the 5 items: 12
-# Item sword represents 8.3%
-# Item potion represents 41.7%
-# Item shield represents 16.7%
-# Item armor represents 25.0%
-# Item helmet represents 8.3%
-# Item most abundant: potion with quantity 5
-# Item least abundant: sword with quantity 1
-# Updated inventory: {'sword': 1, 'potion': 5, 'shield': 2, 'armor': 3, 'helmet': 1, 'magic_item': 1}
-
 import sys
 
+
 def argv_to_inventory() -> dict[str, int]:
-    inventory = {}
+    inventory: dict[str, int] = {}
     for arg in sys.argv[1:]:
         try:
             k, v = arg.split(":")
         except ValueError:
-            print(f"Error - invalid parameter {arg}")
-        if k in inventory.keys():
-            print(f"Redundant item {arg} - discarding")
+            print(f"Error - invalid parameter '{arg}'")
             continue
-
+        if k in inventory.keys():
+            print(f"Redundant item '{k}' - discarding")
+            continue
         try:
             inventory.update({k: int(v)})
         except ValueError as e:
-            print(f"Quantity error for {k}: {e}")
-
+            print(f"Quantity error for '{k}': {e}")
     return inventory
 
 
+def max_count(inventory: dict[str, int]) -> str:
+    max_key = list(inventory)[0]
+    for k in inventory.keys():
+        if inventory[max_key] < inventory[k]:
+            max_key = k
+    return max_key
 
+
+def min_count(inventory: dict[str, int]) -> str:
+    min_key = list(inventory)[0]
+    for k in inventory.keys():
+        if inventory[min_key] > inventory[k]:
+            min_key = k
+    return min_key
 
 
 def main() -> None:
+    print("=== Inventory System Analysis ===")
     inventory = argv_to_inventory()
     print(f"Got inventory: {inventory}")
-    print(f"Item list: {list(inventory.keys()   )}")
+    print(f"Item list: {list(inventory.keys())}")
     len_items = sum(inventory.values())
     len_item_types = len(inventory.keys())
-    print(f"# Total quantity of the {len_item_types} items: {len_items}")
+    print(f"Total quantity of the {len_item_types} items: {len_items}")
+    for k in inventory.keys():
+        print(f"Item {k} represents {round(inventory[k]/len_items*100, 1)}%")
+    most_name = max_count(inventory)
+    least_name = min_count(inventory)
+    most_qty = inventory[most_name]
+    least_qty = inventory[least_name]
+    print(f"Item most abundant: {most_name} with quantity {most_qty}")
+    print(f"Item least abundant: {least_name} with quantity {least_qty}")
+    inventory.update({"magic_item": 1})
+    print(f"Updated inventory: {inventory}")
 
 
 if __name__ == "__main__":
