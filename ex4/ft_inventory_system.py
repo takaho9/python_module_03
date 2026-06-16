@@ -44,7 +44,11 @@ def main() -> None:
     len_item_types = len(inventory.keys())
     print(f"Total quantity of the {len_item_types} items: {len_items}")
     for k in inventory.keys():
-        print(f"Item {k} represents {round(inventory[k]/len_items*100, 1)}%")
+        if len_items != 0:
+            pct = round(inventory[k] / len_items * 100, 1)
+        else:
+            pct = 0.0
+        print(f"Item {k} represents {pct}%")
     if inventory:
         most_name = max_count(inventory)
         least_name = min_count(inventory)

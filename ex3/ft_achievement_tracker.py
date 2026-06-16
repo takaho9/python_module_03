@@ -11,10 +11,12 @@ ACHIEVEMENTS = [
 ]
 
 ACHIEVEMENTS_LEN = len(ACHIEVEMENTS)
+MIN_COUNT = 3
+MAX_COUNT = 10
 
 
 def gen_player_achievements() -> set[str]:
-    count = random.randrange(1, ACHIEVEMENTS_LEN + 1)
+    count = random.randrange(MIN_COUNT, MAX_COUNT + 1)
     return set(random.sample(ACHIEVEMENTS, count))
 
 

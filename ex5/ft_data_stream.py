@@ -6,14 +6,14 @@ def gen_event() -> typing.Generator[tuple[str, str], None, None]:
     players = ["alice", "bob", "charlie", "dylan"]
     actions = ["run", "eat", "sleep", "grab",
                "move", "climb", "swim", "use", "release"]
-    while (True):
+    while True:
         yield (random.choice(players), random.choice(actions))
 
 
 def consume_event(
     events: list[tuple[str, str]]
 ) -> typing.Generator[tuple[str, str], None, None]:
-    while (len(events) > 0):
+    while events:
         index = random.randint(0, len(events)-1)
         event = events[index]
         del events[index]
